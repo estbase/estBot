@@ -8,42 +8,34 @@ from discord.ext import commands
 # Definitions
 config = json.loads(open('settings/config.json').read())
 extensions = [x.replace('.py', '') for x in os.listdir('cogs') if x.endswith('.py')]
-BOT_PREFIX = ('!', '-')
 path = config['cogs_path']
-client = commands.Bot(command_prefix='-')
+client = commands.Bot(command_prefix=config['prefix'])
 
 print('Extensiones disponibles: ')
 print(extensions)
 print()
 
 
-def load_extension(cog, path='cogs.'):
-    members = inspect.getmembers(cog)
-    for name, member in members:
-        if name.startswith('on_'):
-            client.add_listener(member, name)
+@client.command()
+async def load(extension):
     try:
-        client.load_extension(f'{path}{cog}')
-    except Exception as e:
-        print(f'LoadError: {cog}\n{type(e).__name__}: {e}')
+        client.load_extension(path+'.'+extension)
+        print('Loaded {}'.format(extension))
+    except Exception as error:
+        print('{} cannot be loaded. [{}]'.format(extension, error))
 
 
-def load_extensions(cogs, path='cogs.'):
-    for cog in cogs:
-        members = inspect.getmembers(cog)
-        for name, member in members:
-            if name.startswith('on_'):
-                client.add_listener(member, name)
-        try:
-            client.load_extension(f'{path}{cog}')
-        except Exception as e:
-            print(f'LoadError: {cog}\n{type(e).__name__}: {e}')
+@client.command()
+async def unload(extension):
+    try:
+        client.unload_extension(path+'.'+extension)
+        print('Unloaded {}'.format(extension))
+    except Exception as error:
+        print('{} cannot be loaded. [{}]'.format(extension, error))
 
 
-load_extensions(extensions)
 client.remove_command('help')
-version = "v1.0.0"
-test="test"
+
 
 # When BOT is ready
 @client.event
@@ -54,13 +46,19 @@ def on_ready():
         print(client.user.name)
         print(client.user.id)
         print('------')
-        print('Bot is logged in successfully. Running on servers: \n')
+        print('Bot is logged in successfully. Running on servers: ' + str(len(client.servers)))
         for s in client.servers:
             print(" - %s (%s)" % (s.name, s.id))
-        yield from client.change_presence(game=Game(name="Testing BOT | " + version))
+        yield from client.change_presence(game=Game(name="Testing BOT | " + config['version']))
     except Exception as e:
         print(e)
 
 
 if __name__ == '__main__':
+    for extension in extensions:
+        try:
+            client.load_extension(path+'.'+extension)
+        except Exception as error:
+            print('{} cannot be loaded. [{}]'.format(extension, error))
+
     client.run(config['token'])

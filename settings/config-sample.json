@@ -1,7 +1,9 @@
 {
   "token": "TOKEN",
-  "cmd_prefix": ">",
+  "prefix": ">", /* This also can be array [">", "."] */
   "customcmd_prefix": ".",
   "bot_identifier": ":robot:",
-  "track": false
+  "track": false,
+  "cogs_path": "cogs",
+  "version": "v1.0.0"
 }
