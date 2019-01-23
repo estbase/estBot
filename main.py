@@ -1,10 +1,9 @@
 import asyncio
+import os
 import discord
 from discord import Game, Embed, Color
-
 from commands import cmd_ping, cmd_ip, cmd_clear, cmd_userinfo, cmd_help
 
-TOKEN = 'NTM2ODY3ODc3NzAyMjA1NDUw.DydTkg.frUnL693WrackjaMPV0yKqTjWFQ'
 BOT_PREFIX = ('!', '-')
 
 client = discord.Client()
@@ -48,4 +47,4 @@ def on_message(message):
             yield from client.send_message(message.channel, embed=Embed(color=Color.red(), description=("The command '%s' is not valid!" % invoke)))
 
 
-client.run(TOKEN)
+client.run(os.environ.get('token'))
