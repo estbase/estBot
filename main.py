@@ -17,6 +17,7 @@ commands = {
     'help': cmd_help,
 }
 
+
 # When BOT is ready
 @client.event
 @asyncio.coroutine
@@ -32,6 +33,7 @@ def on_ready():
         yield from client.change_presence(game=Game(name="Testing BOT"))
     except Exception as e:
         print(e)
+
 
 # When receive a new message
 @client.event
