@@ -16,5 +16,7 @@ List of actual commands:
 * **!userinfo** : Send channel message with your basic user info on Discord.
 
 ## TODO
+* [ ] WIP Passing from commands to cogs
 * [ ] Check access to some commands
 * [ ] Control num of servers to connect to our API with TOKEN
+* [ ] Add Bot to discordbots.org
