@@ -8,6 +8,7 @@ class User:
 
     @commands.command(pass_context=True)
     async def me(self, ctx):
+        '''Display a block of information about user has requested the command.'''
         try:
             user = ctx.message.author
             em = Embed(colour=0x708DD0)

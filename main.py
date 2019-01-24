@@ -20,7 +20,7 @@ print()
 
 @bot.command()
 async def load(extension):
-    '''Load an extension'''
+    '''Load an extension.'''
     try:
         bot.load_extension(path+'.'+extension)
         print('Loaded {}'.format(extension))
@@ -30,7 +30,7 @@ async def load(extension):
 
 @bot.command()
 async def unload(extension):
-    '''Unload an extension'''
+    '''Unload an extension.'''
     try:
         bot.unload_extension(path+'.'+extension)
         print('Unloaded {}'.format(extension))

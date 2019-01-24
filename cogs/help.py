@@ -7,6 +7,7 @@ class Help:
 
     @commands.command(pass_context=True)
     async def info(self, ctx):
+        '''To develop. Future command to improve the default info command.'''
         await self.bot.say('This channel is property of {} and this moment is under development.'.format(ctx.message.server.owner))
 
 
