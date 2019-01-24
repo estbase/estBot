@@ -1,4 +1,8 @@
+import asyncio
+import json
 import random
+import requests
+from discord import Embed
 from discord.ext import commands
 
 
@@ -8,8 +12,28 @@ class Tools:
 
     @commands.command(pass_context=True, description="Returning all info about network from user")
     async def ip(self, ctx):
-        await self.bot.send_message(ctx.message.author, "test")
-        await self.bot.say('Ni IP ni ostias.')
+        try:
+            req = requests.get('http://ip-api.com/json/')
+            resp = json.loads(req.content.decode())
+            if req.status_code == 200:
+                if resp['status'] == 'success':
+                    out = '**Your data:**\n**IP: ** ' + resp['query'] + '\n**City: **' + resp[
+                        'city'] + '\n**State: **' + \
+                          resp['regionName'] + '\n**Country: **' + resp['country'] + '\n**Latitude: **' + str(resp[
+                                                                                                                  'lat']) + '\n**Longitude: **' + str(
+                        resp['lon']) + '\n**ISP: **' + resp['isp']
+                    print(out)
+                    return_msg = await self.bot.say(embed=Embed(colour=0x708DD0, description=(
+                        "Sending the information to you by private message!")))
+                    await self.bot.send_message(ctx.message.author, out)
+                    await asyncio.sleep(5)
+                    await ctx.bot.delete_message(return_msg)
+                elif resp['status'] == 'fail':
+                    self.bot.send_message(ctx.message.author, 'API Request Failed')
+            else:
+                await self.bot.say('HTTP Request Failed: Error {}'.format(req.status_code))
+        except Exception as e:
+            print(e)
 
     @commands.command()
     async def roll(self, dice: str):
