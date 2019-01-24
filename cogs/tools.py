@@ -76,7 +76,7 @@ class Tools:
             messages.append(m)
         await ctx.bot.delete_messages(messages)
         return_msg = await self.bot.say(
-            embed=discord.Embed(colour=0x708DD0, description="Successfully cleared `%s message(s)`." % (amount - 1)))
+            embed=discord.Embed(colour=0x708DD0, description="Successfully cleared `%s message(s)`. :ok_hand:" % (amount - 1)))
         await asyncio.sleep(5)
         await ctx.bot.delete_message(return_msg)
 
