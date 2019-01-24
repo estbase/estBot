@@ -1,37 +1,37 @@
-import asyncio
-import json
-import requests
-from discord import Embed
+import random
 from discord.ext import commands
 
 
 class Tools:
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command(pass_context=True, description="Returning all info about network from user")
+    async def ip(self, ctx):
+        await self.bot.send_message(ctx.message.author, "test")
+        await self.bot.say('Ni IP ni ostias.')
 
     @commands.command()
-    async def ip(self):
+    async def roll(self, dice: str):
+        """Rolls a dice in NdN format."""
         try:
-            req = requests.get('http://ip-api.com/json/')
-            resp = json.loads(req.content.decode())
-            if req.status_code == 200:
-                if resp['status'] == 'success':
-                    out = '**Your data:**\n**IP: ** ' + resp['query'] + '\n**City: **' + resp[
-                        'city'] + '\n**State: **' + \
-                          resp['regionName'] + '\n**Country: **' + resp['country'] + '\n**Latitude: **' + str(resp[
-                                                                                                                  'lat']) + '\n**Longitude: **' + str(
-                        resp['lon']) + '\n**ISP: **' + resp['isp']
-                    return_msg = await self.client.say(self.client.channel, embed=Embed(colour=0x708DD0, description=("Sending the information to you by private message!")))
-                    await self.client.say(self.client.message.author, out)
-                    await asyncio.sleep(5)
-                    await self.client.delete_message(return_msg)
-                elif resp['status'] == 'fail':
-                    await self.client.say(self.client.message.author, 'API Request Failed')
-            else:
-                await self.client.say(self.client.channel, 'HTTP Request Failed: Error {}'.format(req.status_code))
-        except Exception as e:
-            print(e)
+            rolls, limit = map(int, dice.split('d'))
+            if rolls <= 0:
+                await self.bot.say('You can choose at least 1 roll')
+                return
+        except Exception as error:
+            await self.bot.say('Format has to be in NdN!')
+            print('Some error has been occurred on rolls a dice. ERROR: {}'.format(error))
+            return
+
+        result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
+        await self.bot.say(result)
+
+    @commands.command(description='For when you wanna settle the score some other way')
+    async def choose(self, *choices: str):
+        """Chooses between multiple choices."""
+        await self.bot.say(random.choice(choices))
 
 
-def setup(client):
-    client.add_cog(Tools(client))
+def setup(bot):
+    bot.add_cog(Tools(bot))

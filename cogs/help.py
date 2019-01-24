@@ -2,13 +2,13 @@ from discord.ext import commands
 
 
 class Help:
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.command()
     async def pong(self):
-        await self.client.say('Ping!')
+        await self.bot.say('Ping!')
 
 
-def setup(client):
-    client.add_cog(Help(client))
+def setup(bot):
+    bot.add_cog(Help(bot))
