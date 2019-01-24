@@ -12,6 +12,10 @@ class Tools:
 
     @commands.command(pass_context=True, description="Returning all info about network from user")
     async def ip(self, ctx):
+        '''Returns a information from user network.
+
+        IP, City, State, Country, ISP, and Long & Lat from your connection.
+        '''
         try:
             req = requests.get('http://ip-api.com/json/')
             resp = json.loads(req.content.decode())
@@ -22,7 +26,6 @@ class Tools:
                           resp['regionName'] + '\n**Country: **' + resp['country'] + '\n**Latitude: **' + str(resp[
                                                                                                                   'lat']) + '\n**Longitude: **' + str(
                         resp['lon']) + '\n**ISP: **' + resp['isp']
-                    print(out)
                     return_msg = await self.bot.say(embed=Embed(colour=0x708DD0, description=(
                         "Sending the information to you by private message!")))
                     await self.bot.send_message(ctx.message.author, out)
