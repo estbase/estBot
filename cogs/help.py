@@ -6,8 +6,8 @@ class Help:
         self.bot = bot
 
     @commands.command()
-    async def pong(self):
-        await self.bot.say('Ping!')
+    async def info(self):
+        await self.bot.say('Util information. TBD (To Be Developed)')
 
 
 def setup(bot):

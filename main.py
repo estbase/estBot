@@ -47,9 +47,7 @@ async def on_ready():
     try:
         await load_cogs()
         await bot.change_presence(game=Game(name="Testing BOT | " + config['version']))
-        print('Logged in as')
-        print(bot.user.name)
-        print(bot.user.id)
+        print('\nBot logged in as ' + bot.user.name + ' with ID: ' + bot.user.id)
         print('------')
         print('Bot is logged in successfully. Running on servers: ' + str(len(bot.servers)))
         for s in bot.servers:
