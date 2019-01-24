@@ -63,6 +63,7 @@ class Tools:
 
     @commands.command(pass_context=True)
     async def clear(self, ctx, args: int):
+        '''Delete N messages from channel'''
         try:
             amount = int(args) + 1 if int(args) > 0 else 2
         except:
