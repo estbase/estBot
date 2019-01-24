@@ -1,4 +1,6 @@
 import asyncio
+
+import discord
 import json
 import random
 import requests
@@ -58,6 +60,24 @@ class Tools:
     async def choose(self, *choices: str):
         """Chooses between multiple choices."""
         await self.bot.say(random.choice(choices))
+
+    @commands.command(pass_context=True)
+    async def clear(self, ctx, args: int):
+        try:
+            amount = int(args) + 1 if int(args) > 0 else 2
+        except:
+            await self.bot.say(
+                embed=Embed(color=discord.Color.red(), descrition="Please enter a valid value for message amount!"))
+            return
+
+        messages = []
+        async for m in self.bot.logs_from(ctx.message.channel, limit=amount):
+            messages.append(m)
+        await ctx.bot.delete_messages(messages)
+        return_msg = await self.bot.say(
+            embed=discord.Embed(colour=0x708DD0, description="Successfully cleared `%s message(s)`." % (amount - 1)))
+        await asyncio.sleep(5)
+        await ctx.bot.delete_message(return_msg)
 
 
 def setup(bot):
