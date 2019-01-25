@@ -62,6 +62,7 @@ class Tools:
         await self.bot.say(random.choice(choices))
 
     @commands.command(pass_context=True)
+    @commands.has_permissions(administrator=True)
     async def clear(self, ctx, args: int):
         '''Delete N messages from channel.'''
         try:
@@ -76,9 +77,17 @@ class Tools:
             messages.append(m)
         await ctx.bot.delete_messages(messages)
         return_msg = await self.bot.say(
-            embed=discord.Embed(colour=0x708DD0, description="Successfully cleared `%s message(s)`. :ok_hand:" % (amount - 1)))
+            embed=discord.Embed(colour=0x708DD0,
+                                description="Successfully cleared `%s message(s)`. :ok_hand:" % (amount - 1)))
         await asyncio.sleep(5)
         await ctx.bot.delete_message(return_msg)
+
+    @commands.command(pass_context=True)
+    async def ping(self, ctx):
+        """Pong! Returns your websocket latency."""
+        t = await self.bot.say('Pong!')
+        ms = (t.timestamp - ctx.message.timestamp).total_seconds() * 1000
+        await self.bot.edit_message(t, new_content='Pong! Took: {}ms'.format(int(ms)))
 
 
 def setup(bot):
