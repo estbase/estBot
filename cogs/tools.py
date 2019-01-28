@@ -1,6 +1,9 @@
 import asyncio
+
+import datetime
 import discord
 import json
+import pytz as pytz
 import random
 import requests
 from discord import Embed
@@ -87,6 +90,25 @@ class Tools:
         t = await self.bot.say('Pong!')
         ms = (t.timestamp - ctx.message.timestamp).total_seconds() * 1000
         await self.bot.edit_message(t, new_content='Pong! Took: {}ms'.format(int(ms)))
+
+    @commands.command(pass_context=True)
+    async def datetime(self, ctx, tz=None):
+        """Get the current date and time for a time zone or UTC."""
+        now = datetime.datetime.now(tz=pytz.timezone('Europe/Madrid'))
+        utctime = datetime.datetime.now(tz=pytz.UTC)
+        all_tz = 'https://github.com/estbase/estBot/blob/master/settings/timezones.json'
+        if tz:
+            try:
+                now = now.astimezone(pytz.timezone(tz))
+            except:
+                em = discord.Embed(color=discord.Color.red())
+                em.title = "Invalid timezone"
+                em.description = f'Please take a look at the [list]({all_tz}) of timezones.'
+                return await self.bot.say(embed=em)
+            await self.bot.say(f'**{tz}:** It is currently {now:%A, %B %d, %Y} at {now:%I:%M:%S %p}.')
+        else:
+            await self.bot.say(f'**EST Base Headquarters:** It is currently {now:%A, %B %d, %Y} at {now:%I:%M:%S %p}.')
+            await self.bot.say(f'**UTC Time:** It is currently {utctime:%A, %B %d, %Y} at {utctime:%I:%M:%S %p}.')
 
 
 def setup(bot):
