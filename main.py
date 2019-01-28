@@ -1,11 +1,16 @@
+import sys
+
+import discord
 import logging
 import os
 import json
 import traceback
 from discord import Game
 from discord.ext import commands
+from ext.paginator import PaginatorSession
 
 # Definitions
+log = logging.getLogger(__name__)
 config = json.loads(open('settings/config.json').read())
 extensions = [x.replace('.py', '') for x in os.listdir('cogs') if x.endswith('.py')]
 path = config['cogs_path']
@@ -49,7 +54,8 @@ async def on_ready():
         print('------')
         print('Bot is logged in successfully. Running on servers: ' + str(len(bot.servers)))
         for s in bot.servers:
-            print(" - %s (%s)" % (s.name, s.id))
+            print(" - %s (%s) \n" % (s.name, s.id))
+        log.info("Bot Ready!")
     except Exception as e:
         print(e)
 
@@ -71,5 +77,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+    log.info("Starting bot...")
 
     bot.run(config['token'])
