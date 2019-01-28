@@ -10,6 +10,13 @@ class Help:
         '''To develop. Future command to improve the default info command.'''
         await self.bot.say('This channel is property of {} and this moment is under development.'.format(ctx.message.server.owner))
 
+    @commands.command()
+    async def invite(self):
+        '''Invite the bot to your server'''
+        await self.bot.say(
+            f"Invite me to your server: https://discordapp.com/oauth2/authorize?client_id=536867877702205450&scope=bot&permissions=268905542"
+        )
+
 
 def setup(bot):
     bot.add_cog(Help(bot))
