@@ -1,13 +1,9 @@
-import sys
-
-import discord
 import logging
 import os
 import json
 import traceback
 from discord import Game
 from discord.ext import commands
-from ext.paginator import PaginatorSession
 
 # Definitions
 log = logging.getLogger(__name__)
