@@ -19,13 +19,17 @@ ASAP, currently in development.
 ## Commands
 List of actual commands:
 
-* **!clear [i]** : On [i] is an integer with number of messages to delete.
-* **!help** : Command to view what commands is available
-* **!ip** : Sends a private message with all info aboit your IP, City, CPA,...
-* **!roll** : Rolls a dice in NdN format.
-* **!quickpoll** : Makes a poll quickly.
-* **!me** : Display a block of information about user has requested
-* **!choose** : Chooses between multiple choices.
+* **choose** : Chooses between multiple choices.
+* **clear [i]** : On [i] is an integer with number of messages to delete.
+* **countdown [i] [s]** : On [i] is an integer with number of seconds and [s] the title of the countdown.
+* **datetime** : Provides current date and time for a time zone and UTC
+* **help** : Command to view what commands is available
+* **invite** : Generate a link to invite the bot to your own server.
+* **ip** : Sends a private message with all info aboit your IP, City, CPA,...
+* **me** : Display a block of information about user has requested
+* **ping** : Makes a ping to see the response time of the bot
+* **quickpoll** : Makes a poll quickly.
+* **roll** : Rolls a dice in NdN format.
 
 ## TODO
 
