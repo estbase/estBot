@@ -7,7 +7,7 @@ def to_emoji(c):
     return chr(base + c)
 
 
-class Polls:
+class Polls(commands.Cog):
     """Poll voting system."""
 
     def __init__(self, bot):
@@ -23,13 +23,13 @@ class Polls:
         channel = discord.Channel
 
         if len(questions_and_choices) < 3:
-            return await self.bot.say('Need at least 1 question with 2 choices.')
+            return await ctx.send('Need at least 1 question with 2 choices.')
         elif len(questions_and_choices) > 21:
-            return await self.bot.say('You can only have up to 20 choices.')
+            return await ctx.send('You can only have up to 20 choices.')
 
         perms = channel.permissions_for(ctx.message.channel, ctx.message.author)
         if not (perms.read_message_history or perms.add_reactions):
-            return await self.bot.say('Need Read Message History and Add Reactions permissions.')
+            return await ctx.send('Need Read Message History and Add Reactions permissions.')
 
         question = questions_and_choices[0]
         choices = [(to_emoji(e), v) for e, v in enumerate(questions_and_choices[1:])]
@@ -40,7 +40,7 @@ class Polls:
             pass
 
         body = "\n".join(f"{key}: {c}" for key, c in choices)
-        poll = await self.bot.say(f'{ctx.message.author.name} asks: {question}\n\n{body}')
+        poll = await ctx.send(f'{ctx.message.author.name} asks: {question}\n\n{body}')
         for emoji, _ in choices:
             await self.bot.add_reaction(poll, emoji)
 

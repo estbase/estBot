@@ -1,8 +1,8 @@
+import discord
 import logging
 import os
 import json
 import traceback
-from discord import Game
 from discord.ext import commands
 
 # Definitions
@@ -45,7 +45,8 @@ async def unload(extension):
 async def on_ready():
     try:
         await load_cogs()
-        await bot.change_presence(game=Game(name="Testing BOT | " + config['version']))
+        activity = discord.Game(name="Testing BOT | " + config['version'])
+        await bot.change_presence(status=discord.Status.idle, activity=activity)
         print('\nBot logged in as ' + bot.user.name + ' with ID: ' + bot.user.id)
         print('------')
         print('Bot is logged in successfully. Running on servers: ' + str(len(bot.servers)))
@@ -61,7 +62,7 @@ async def load_cogs():
     for extension in extensions:
         try:
             print('Loading {}...'.format(extension))
-            bot.load_extension(path+'.'+extension)
+            bot.load_extension(path + '.' + extension)
         except Exception as error:
             print('{} cannot be loaded. [{}]'.format(extension, error))
             traceback.print_exc()

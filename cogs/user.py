@@ -2,7 +2,7 @@ from discord import Embed
 from discord.ext import commands
 
 
-class User:
+class User(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -22,7 +22,7 @@ class User:
             em.set_author(name="EST Base Discord Bot",
                           icon_url='https://cdn.discordapp.com/avatars/536867877702205450/7a612de5dcce089db07e4d18799b013b.png')
             em.set_thumbnail(url=ctx.message.author.avatar_url)
-            await self.bot.say(embed=em)
+            await ctx.send(embed=em)
         except Exception as error:
             print("Some error has been occurred on executing User.me. Error: {}".format(error))
 
