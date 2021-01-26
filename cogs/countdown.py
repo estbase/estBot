@@ -3,14 +3,14 @@ import asyncio
 
 
 class Countdown(commands.Cog):
-    '''Countdown timer!'''
+    """Countdown timer!"""
 
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(pass_context=True, description="Show a countdown with the title provided. Ex.: countdown 10 My timer")
     async def countdown(self, ctx, seconds, *, title):
-        '''Countdown timer
+        """Countdown timer
 
         Parameters
         ------------
@@ -18,7 +18,7 @@ class Countdown(commands.Cog):
             Seconds of the countdown
         title: text
             Indicates the title of your countdown
-        '''
+        """
         try:
             secondint = int(seconds)
             if secondint > 300:

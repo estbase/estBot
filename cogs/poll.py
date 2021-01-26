@@ -20,7 +20,7 @@ class Polls(commands.Cog):
         The first argument is the question and the rest are the choices.
         You can type phrases writing "This is an example"
         """
-        channel = discord.Channel
+        channel = discord.TextChannel
 
         if len(questions_and_choices) < 3:
             return await ctx.send('Need at least 1 question with 2 choices.')
@@ -35,14 +35,14 @@ class Polls(commands.Cog):
         choices = [(to_emoji(e), v) for e, v in enumerate(questions_and_choices[1:])]
 
         try:
-            await ctx.bot.delete_message(ctx.message)
+            await ctx.message.channel.delete_messages([ctx.message])
         except:
             pass
 
         body = "\n".join(f"{key}: {c}" for key, c in choices)
-        poll = await ctx.send(f'{ctx.message.author.name} asks: {question}\n\n{body}')
+        poll = await ctx.send(f'{ctx.message.author.mention} asks: {question}\n\n{body}')
         for emoji, _ in choices:
-            await self.bot.add_reaction(poll, emoji)
+            await poll.add_reaction(emoji)
 
 
 def setup(bot):

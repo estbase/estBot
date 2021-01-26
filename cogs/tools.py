@@ -15,27 +15,29 @@ class Tools(commands.Cog):
 
     @commands.command(pass_context=True, description="Returning all info about network from user")
     async def ip(self, ctx):
-        '''Returns a information from user network.
+        """Returns a information from user network.
 
         IP, City, State, Country, ISP, and Long & Lat from your connection.
-        '''
+        """
         try:
             req = requests.get('http://ip-api.com/json/')
             resp = json.loads(req.content.decode())
             if req.status_code == 200:
                 if resp['status'] == 'success':
-                    out = '**Your data:**\n**IP: ** ' + resp['query'] + '\n**City: **' + resp[
-                        'city'] + '\n**State: **' + \
-                          resp['regionName'] + '\n**Country: **' + resp['country'] + '\n**Latitude: **' + str(resp[
-                                                                                                                  'lat']) + '\n**Longitude: **' + str(
-                        resp['lon']) + '\n**ISP: **' + resp['isp']
-                    return_msg = await ctx.send(embed=Embed(colour=0x708DD0, description=(
-                        "Sending the information to you by private message!")))
-                    await self.bot.send_message(ctx.message.author, out)
-                    await asyncio.sleep(5)
-                    await ctx.bot.delete_message(return_msg)
+                    out = '**Your data:**\n**IP: ** ' + resp['query'] + \
+                          '\n**City: **' + resp['city'] + \
+                          '\n**State: **' + resp['regionName'] + \
+                          '\n**Country: **' + resp['country'] + \
+                          '\n**Latitude: **' + str(resp['lat']) + \
+                          '\n**Longitude: **' + str(resp['lon']) + \
+                          '\n**ISP: **' + resp['isp']
+
+                    await ctx.message.channel.delete_messages([ctx.message])
+                    await ctx.send(embed=Embed(colour=0x708DD0, description=(
+                        "Sending the information to you by private message!")), delete_after=5)
+                    await ctx.message.author.send(out)
                 elif resp['status'] == 'fail':
-                    self.bot.send_message(ctx.message.author, 'API Request Failed')
+                    ctx.message.author.send('API Request Failed')
             else:
                 await ctx.send('HTTP Request Failed: Error {}'.format(req.status_code))
         except Exception as e:
@@ -43,7 +45,9 @@ class Tools(commands.Cog):
 
     @commands.command()
     async def roll(self, ctx, dice: str):
-        """Rolls a dice in NdN format."""
+        """Rolls a dice in NdN format.
+        Example: roll 1d6
+        """
         try:
             rolls, limit = map(int, dice.split('d'))
             if rolls <= 0:
@@ -60,27 +64,14 @@ class Tools(commands.Cog):
     @commands.command(description='For when you wanna settle the score some other way')
     async def choose(self, ctx, *choices: str):
         """Chooses between multiple choices."""
-        await ctx.send(random.choice(choices))
-
-    @commands.command(pass_context=True)
-    @commands.has_permissions(administrator=True)
-    async def clear(self, ctx, args: int):
-        '''Delete N messages from channel.'''
-        try:
-            amount = int(args) + 1 if int(args) > 0 else 2
-        except:
+        if len(choices) <= 1:
             await ctx.send(
-                embed=Embed(color=discord.Color.red(), descrition="Please enter a valid value for message amount!"))
-            return
+                embed=Embed(
+                    color=discord.Color.red(),
+                    description="You must provide at least two options to choose"))
+        else:
+            await ctx.send(random.choice(choices))
 
-        messages = []
-        async for m in ctx.message.channel.history(limit=amount):
-            messages.append(m)
-        await ctx.message.channel.delete_messages(messages)
-        return_msg = await ctx.send(
-            embed=discord.Embed(colour=0x708DD0,
-                                description="Successfully cleared `%s message(s)`. :ok_hand:" % (amount - 1)),
-            delete_after=5)
 
     @commands.command(pass_context=True)
     async def ping(self, ctx):

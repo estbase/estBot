@@ -8,7 +8,7 @@ class User(commands.Cog):
 
     @commands.command(pass_context=True)
     async def me(self, ctx):
-        '''Display a block of information about user has requested the command.'''
+        """Display a block of information about user has requested the command."""
         try:
             user = ctx.message.author
             em = Embed(colour=0x708DD0)
@@ -22,7 +22,7 @@ class User(commands.Cog):
             em.set_author(name="EST Base Discord Bot",
                           icon_url='https://cdn.discordapp.com/avatars/536867877702205450/7a612de5dcce089db07e4d18799b013b.png')
             em.set_thumbnail(url=ctx.message.author.avatar_url)
-            await ctx.send(embed=em)
+            await user.send(embed=em)
         except Exception as error:
             print("Some error has been occurred on executing User.me. Error: {}".format(error))
 

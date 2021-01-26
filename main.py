@@ -11,6 +11,7 @@ config = json.loads(open('settings/config.json').read())
 extensions = [x.replace('.py', '') for x in os.listdir('cogs') if x.endswith('.py')]
 path = config['cogs_path']
 bot = commands.Bot(command_prefix=config['prefix'])
+bot.remove_command('help')
 
 print('Extensiones disponibles: ')
 print(extensions)
@@ -18,26 +19,23 @@ print()
 
 
 @bot.command()
-async def load(extension):
-    '''Load an extension.'''
+async def load(ctx, extension):
+    """Load an extension."""
     try:
-        bot.load_extension(path+'.'+extension)
+        bot.load_extension(path + '.' + extension)
         print('Loaded {}'.format(extension))
     except Exception as error:
         print('{} cannot be loaded. [{}]'.format(extension, error))
 
 
 @bot.command()
-async def unload(extension):
-    '''Unload an extension.'''
+async def unload(ctx, extension):
+    """Unload an extension."""
     try:
-        bot.unload_extension(path+'.'+extension)
+        bot.unload_extension(path + '.' + extension)
         print('Unloaded {}'.format(extension))
     except Exception as error:
-        print('{} cannot be loaded. [{}]'.format(extension, error))
-
-
-# bot.remove_command('help')
+        print('{} cannot be unloaded. [{}]'.format(extension, error))
 
 
 # When BOT is ready
@@ -58,7 +56,7 @@ async def on_ready():
 
 
 async def load_cogs():
-    '''Load automatically all cogs found on folder'''
+    """Load automatically all cogs found on folder"""
     for extension in extensions:
         try:
             print('Loading {}...'.format(extension))
