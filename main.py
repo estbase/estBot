@@ -43,7 +43,7 @@ async def unload(ctx, extension):
 async def on_ready():
     try:
         await load_cogs()
-        activity = discord.Game(name="Testing BOT | " + config['version'])
+        activity = discord.Game(name="EST BOT | " + config['version'])
         await bot.change_presence(status=discord.Status.idle, activity=activity)
         print('\nBot logged in as ' + bot.user.name + ' with ID: ' + bot.user.id)
         print('------')
