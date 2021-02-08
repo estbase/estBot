@@ -44,13 +44,13 @@ async def on_ready():
     try:
         await load_cogs()
         activity = discord.Game(name="EST BOT | " + config['version'])
-        await bot.change_presence(status=discord.Status.idle, activity=activity)
-        print('\nBot logged in as ' + bot.user.name + ' with ID: ' + bot.user.id)
+        await bot.change_presence(status=discord.Status.online, activity=activity)
+        print(f'Bot logged in as {bot.user.name} with ID: {bot.user.id}')
         print('------')
-        print('Bot is logged in successfully. Running on servers: ' + str(len(bot.servers)))
-        for s in bot.servers:
+        print('Bot is logged in successfully. Running on servers: ' + str(len(bot.guilds)))
+        for s in bot.guilds:
             print(" - %s (%s) \n" % (s.name, s.id))
-        log.info("Bot Ready!")
+        print("Bot Ready!")
     except Exception as e:
         print(e)
 
@@ -72,6 +72,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-    log.info("Starting bot...")
+    print("Starting bot...")
 
     bot.run(config['token'])

@@ -40,7 +40,7 @@ class Modetare(commands.Cog):
 
         await ctx.channel.purge(limit=amount)
         await ctx.send(
-            embed=discord.Embed(colour=0x708DD0,
+            embed=discord.Embed(colour=discord.Colour.red(),
                                 description="Successfully cleared `%s message(s)`. :ok_hand:" % (amount - 1)),
             delete_after=5)
 

@@ -1,3 +1,4 @@
 .idea
 .env
 settings/config.json
+/servers.txt

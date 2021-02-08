@@ -1,8 +1,7 @@
-import asyncio
 import datetime
 import discord
 import json
-import pytz as pytz
+import pytz
 import random
 import requests
 from discord import Embed
