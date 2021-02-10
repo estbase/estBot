@@ -71,6 +71,29 @@ class Help(commands.Cog):
             f"Invite me to your server: https://discordapp.com/oauth2/authorize?client_id=536867877702205450&scope=bot&permissions=268905542"
         )
 
+    @commands.command()
+    async def info(self, ctx):
+        """Information about the Bot"""
+        members = channels = 0
+        for guild in self.bot.guilds:
+            members += guild.member_count
+            channels += len(guild.text_channels)
+
+        em = discord.Embed(
+            description='I\'m a **Electronic Sports Tournaments Base Bot** that provides some **useful commands** to '
+                        'manage your own community or team. With expectations of create a **great community** around'
+                        ' **eSports**.',
+            colour=discord.Colour.red()
+        )
+        em.add_field(name='Info', value='**Developer:** Anthrax#0558 \n **Website:** **[estbase.org](https://www.estbase.org)** \n **Official server:** **[discord.gg/DpEKAch](https://discord.gg/DpEKAch)**', inline=True)
+        em.add_field(name="\u200b", value="\u200b", inline=True)
+        em.add_field(name='Stats', value=f'**Servers:** `{len(self.bot.guilds)}` \n **Users:** `{members}` \n **Channels:** `{channels}`', inline=True)
+
+        em.set_footer(text="Like the project? Colaborate with us!")
+        em.set_author(name="EST Base Discord Bot",
+                      icon_url='https://cdn.discordapp.com/avatars/536867877702205450/7a612de5dcce089db07e4d18799b013b.png')
+        em.set_thumbnail(url=self.bot.user.avatar_url)
+        await ctx.send(embed=em)
 
 def setup(bot):
     bot.add_cog(Help(bot))
