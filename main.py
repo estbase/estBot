@@ -4,6 +4,7 @@ import os
 import json
 import traceback
 from discord.ext import commands
+from discord.ext.commands import CommandNotFound
 
 # Definitions
 log = logging.getLogger(__name__)
@@ -53,6 +54,22 @@ async def on_ready():
         print("Bot Ready!")
     except Exception as e:
         print(e)
+
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, CommandNotFound):
+        em = discord.Embed(
+            description="Hey, **that command doesn't exist!**\nFeel free to check the commands if you're a bit lost!\n\u200b",
+            colour=discord.Colour.red()
+        )
+        em.add_field(name='Commands', value='`$help`', inline=True)
+        em.add_field(name='Web list', value='**[github.com/estbase/estBot](https://github.com/estbase/estBot)**', inline=True)
+        em.set_author(name="EST Base Discord Bot",
+                      icon_url='https://cdn.discordapp.com/avatars/536867877702205450/7a612de5dcce089db07e4d18799b013b.png')
+        await ctx.send(embed=em)
+        return
+    raise error
 
 
 async def load_cogs():
