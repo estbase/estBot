@@ -44,6 +44,10 @@ class Modetare(commands.Cog):
                                 description="Successfully cleared `%s message(s)`. :ok_hand:" % (amount - 1)),
             delete_after=5)
 
+    @clear.error
+    async def clear_error(self, ctx, error):
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send('Please pass in all required arguments')
 
 def setup(bot):
     bot.add_cog(Modetare(bot))

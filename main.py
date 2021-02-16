@@ -69,6 +69,9 @@ async def on_command_error(ctx, error):
                       icon_url='https://cdn.discordapp.com/avatars/536867877702205450/7a612de5dcce089db07e4d18799b013b.png')
         await ctx.send(embed=em)
         return
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send('Please pass in all required arguments')
+        return
     raise error
 
 
